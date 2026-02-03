@@ -26,8 +26,8 @@
 
   <body class="bg-slate-900 text-white">
     <!-- AUDIO -->
-    <audio id="music" loop>
-      <source src="MUSIK_KAMU.mp3" type="audio/mpeg" />
+    <audio id="music" loop preload="auto">
+      <source src="bad.mp3" type="audio/mpeg" />
     </audio>
 
     <!-- COVER -->
@@ -51,16 +51,13 @@
 
     <!-- CONTENT -->
     <section id="content" class="hidden px-6 py-10 max-w-xl mx-auto space-y-10">
-      <!-- HEADER -->
       <div class="text-center">
         <h2 class="font-undangan text-3xl">Hubungan Resmi</h2>
         <p class="opacity-70">13 Juni 2025 — Sekarang</p>
       </div>
 
-      <!-- FOTO -->
-      <img src="FOTO_KALIAN.jpg" class="rounded-2xl shadow-lg w-full" />
+      <img src="img.jpeg" class="rounded-2xl shadow-lg w-full" />
 
-      <!-- DETAIL -->
       <div class="bg-slate-800 rounded-2xl p-6">
         <h3 class="font-undangan text-xl mb-3">Detail Hubungan</h3>
         <ul class="space-y-2 text-sm">
@@ -71,13 +68,11 @@
         </ul>
       </div>
 
-      <!-- COUNTER -->
       <div class="text-center">
         <p class="opacity-70">Sudah bersama selama</p>
         <h3 id="counter" class="font-undangan text-2xl"></h3>
       </div>
 
-      <!-- TIMELINE -->
       <div class="bg-slate-800 rounded-2xl p-6">
         <h3 class="font-undangan text-xl mb-3">Timeline Hubungan (Jujur)</h3>
         <ul class="space-y-2 text-sm">
@@ -89,7 +84,6 @@
         </ul>
       </div>
 
-      <!-- FAQ -->
       <div class="bg-slate-800 rounded-2xl p-6">
         <h3 class="font-undangan text-xl mb-3">FAQ Paling Nyebelin</h3>
         <ul class="space-y-3 text-sm">
@@ -101,7 +95,6 @@
         </ul>
       </div>
 
-      <!-- KONTRAK -->
       <div class="bg-slate-800 rounded-2xl p-6">
         <h3 class="font-undangan text-xl mb-3">Kontrak Pacaran Digital</h3>
         <ol class="list-decimal list-inside text-sm space-y-2">
@@ -112,26 +105,23 @@
         </ol>
       </div>
 
-      <!-- STATISTIK -->
       <div class="bg-slate-800 rounded-2xl p-6">
         <h3 class="font-undangan text-xl mb-3">Statistik Hubungan</h3>
         <ul class="space-y-2 text-sm">
-          <li>📊 Tingkat sayang: Sangat Tinggi</li>
-          <li>📊 Tingkat ngambek: Tidak Stabil</li>
-          <li>📊 Tingkat gengsi: Tinggi</li>
-          <li>📊 Kemungkinan putus: Ditolak</li>
+          <li>📊 Tingkat sayang: 101% "Sangat Tinggi"</li>
+          <li>📊 Tingkat ngambek: 999999999999% "Tidak Stabil"</li>
+          <li>📊 Tingkat gengsi: 677777777% "Jangan Ditanya"</li>
+          <li>📊 Kemungkinan putus: 0% "Jangan Harap Dek Dek"</li>
         </ul>
       </div>
 
-      <!-- RAMALAN -->
       <div class="bg-slate-800 rounded-2xl p-6 text-center italic text-sm">
         Hubungan ini akan bertahan selama<br />
         komunikasi dijaga,<br />
         ego diturunin,<br />
-        dan makanan dibagi dua.
+        dan "(Selalu ngasih makanan sisa sabila ke baros)".
       </div>
 
-      <!-- KOMENTAR -->
       <div class="bg-slate-800 rounded-2xl p-6">
         <h3 class="font-undangan text-xl mb-3">Komentar & Doa</h3>
         <input
@@ -153,7 +143,6 @@
         <div id="commentList" class="mt-4 space-y-2"></div>
       </div>
 
-      <!-- PENUTUP -->
       <div class="text-center italic opacity-80">
         Terima kasih sudah baca sampai bawah.<br />
         Kalau kamu baca ini, berarti kamu niat 🤍
@@ -165,7 +154,7 @@
       id="musicBtn"
       class="fixed bottom-5 right-5 bg-pink-400 text-black px-4 py-2 rounded-full shadow"
     >
-      🎵 Musik
+      🔊 Musik
     </button>
 
     <script>
@@ -175,24 +164,42 @@
       const music = document.getElementById("music");
       const musicBtn = document.getElementById("musicBtn");
 
-      openBtn.onclick = () => {
+      // SETUP AUDIO
+      music.volume = 0.6;
+      music.load();
+
+      // PLAY SAAT KLIK BUKA UNDANGAN (FIX)
+      openBtn.addEventListener("click", async () => {
         cover.classList.add("hidden");
         content.classList.remove("hidden");
-        music.play();
-      };
 
+        try {
+          await music.play();
+        } catch (err) {
+          console.log("Autoplay diblokir, pakai tombol musik");
+        }
+      });
+
+      // TOGGLE MUSIK
       let playing = true;
-      musicBtn.onclick = () => {
-        playing ? music.pause() : music.play();
-        musicBtn.textContent = playing ? "🔇 Musik" : "🎵 Musik";
+      musicBtn.onclick = async () => {
+        if (playing) {
+          music.pause();
+          musicBtn.textContent = "🔇 Musik";
+        } else {
+          await music.play();
+          musicBtn.textContent = "🔊 Musik";
+        }
         playing = !playing;
       };
 
+      // COUNTER
       const start = new Date("2025-06-13");
       const now = new Date();
       const days = Math.floor((now - start) / (1000 * 60 * 60 * 24));
       document.getElementById("counter").textContent = days + " hari";
 
+      // KOMENTAR (LOCAL)
       function addComment() {
         const name = document.getElementById("name").value;
         const text = document.getElementById("comment").value;
@@ -210,7 +217,9 @@
         const list = document.getElementById("commentList");
         list.innerHTML = "";
         (JSON.parse(localStorage.getItem("comments")) || []).forEach((c) => {
-          list.innerHTML += `<div class="bg-slate-700 p-2 rounded"><b>${c.name}</b><br>${c.text}</div>`;
+          list.innerHTML += `<div class="bg-slate-700 p-2 rounded">
+              <b>${c.name}</b><br>${c.text}
+            </div>`;
         });
       }
       render();
