@@ -4,261 +4,421 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Baros & Sabila — Hubungan Resmi</title>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@200;300;400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Raleway:wght@200;300;400;500;600&display=swap"
       rel="stylesheet"
     />
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
+
+    <!-- AOS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- Typed.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js"></script>
+
+    <!-- Vanilla Tilt -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- AUDIO -->
     <audio id="music" loop preload="auto">
       <source src="bad.mp3" type="audio/mpeg" />
     </audio>
 
-    <!-- COVER -->
+    <!-- ═══════════════════════════════════════
+       COVER
+  ═══════════════════════════════════════ -->
     <section id="cover">
-      <div class="cover-bg"></div>
+      <canvas id="starCanvas"></canvas>
+      <div class="cover-glow glow-1"></div>
+      <div class="cover-glow glow-2"></div>
+      <div class="cover-glow glow-3"></div>
       <div class="cover-noise"></div>
 
-      <div class="cover-content">
-        <div class="ornament top-ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
-        <p class="cover-eyebrow">Dengan sepenuh hati, kami mengumumkan</p>
-        <h1 class="cover-title">
-          <span class="name-left">Baros</span>
-          <span class="ampersand">&amp;</span>
-          <span class="name-right">Sabila</span>
+      <!-- Floating petals -->
+      <div class="petals-container" id="petalsContainer"></div>
+
+      <div class="cover-content" id="coverContent">
+        <div class="cover-badge" id="cvBadge">✦ Undangan Hubungan Resmi ✦</div>
+
+        <h1 class="cover-title" id="cvTitle">
+          <span class="name-split" id="nameLeft">Baros</span>
+          <span class="amp-wrap">
+            <span class="cover-amp" id="cvAmp">&amp;</span>
+          </span>
+          <span class="name-split" id="nameRight">Sabila</span>
         </h1>
-        <p class="cover-sub">Hubungan Resmi · 13 Juni 2025</p>
-        <div class="divider">
+
+        <div class="cover-date-line" id="cvDate">
+          <span class="date-dash">—</span>
+          <span>13 Juni 2025</span>
+          <span class="date-dash">—</span>
+        </div>
+
+        <p class="cover-tagline" id="cvTagline">
+          Bukan pernikahan.<br />
+          <span class="tagline-sub">Jangan tanya kapan.</span>
+        </p>
+
+        <div class="cover-divider" id="cvDivider">
           <span class="divider-line"></span>
-          <span class="divider-diamond">◆</span>
+          <span class="divider-icon">◆</span>
           <span class="divider-line"></span>
         </div>
-        <p class="cover-note">Bukan pernikahan.<br />Jangan tanya kapan.</p>
 
-        <button id="openBtn" class="open-btn">
-          <span>Buka Undangan</span>
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-          >
-            <path d="M12 5v14M5 12l7 7 7-7" />
-          </svg>
+        <button id="openBtn" class="open-btn magnetic-btn" data-magnetic>
+          <span class="btn-bg"></span>
+          <span class="btn-text">Buka Undangan</span>
+          <span class="btn-arrow">↓</span>
         </button>
 
-        <div class="ornament bottom-ornament">
-          — &nbsp; XIII.VI.MMXXV &nbsp; —
-        </div>
+        <p class="cover-footer-note" id="cvNote">XIII · VI · MMXXV</p>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="scroll-hint" id="scrollHint">
+        <span></span>
       </div>
     </section>
 
-    <!-- CONTENT -->
+    <!-- ═══════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════ -->
     <main id="content" class="hidden">
+      <!-- Progress bar -->
+      <div class="progress-bar" id="progressBar"></div>
+
       <!-- HERO -->
-      <section class="section-hero reveal">
-        <div class="hero-label">✦ Undangan Hubungan Resmi ✦</div>
-        <h2 class="section-title">Baros <em>&</em> Sabila</h2>
-        <p class="hero-date">13 Juni 2025 — Sekarang</p>
+      <section class="s-hero">
+        <div class="hero-inner" data-aos="fade-up" data-aos-duration="1000">
+          <p class="section-eyebrow">✦ Baros & Sabila ✦</p>
+          <h2 class="hero-title">Hubungan<br /><em>Resmi</em></h2>
+          <p class="hero-since">Sejak 13 Juni 2025</p>
+        </div>
+        <div
+          class="hero-line"
+          data-aos="scaleX"
+          data-aos-duration="1200"
+          data-aos-delay="200"
+        ></div>
       </section>
 
       <!-- PHOTO -->
-      <section class="section-photo reveal">
-        <div class="photo-frame">
-          <img src="img.jpeg" alt="Baros & Sabila" />
-          <div class="photo-caption">📍 Di mana pun, asal bareng</div>
+      <section class="s-photo" data-aos="fade-up" data-aos-duration="900">
+        <div
+          class="photo-wrap js-tilt"
+          data-tilt
+          data-tilt-max="8"
+          data-tilt-speed="400"
+          data-tilt-glare
+          data-tilt-max-glare="0.15"
+        >
+          <div class="photo-inner">
+            <img src="img.jpeg" alt="Baros & Sabila" id="couplePhoto" />
+            <div class="photo-overlay"></div>
+            <div class="photo-caption">
+              <span class="caption-dot">◆</span>
+              <span>Di mana pun, asal bareng</span>
+            </div>
+          </div>
+          <div class="photo-corner tl"></div>
+          <div class="photo-corner tr"></div>
+          <div class="photo-corner bl"></div>
+          <div class="photo-corner br"></div>
         </div>
       </section>
 
       <!-- COUNTER -->
-      <section class="section-counter reveal">
-        <p class="counter-label">Sudah bersama selama</p>
-        <div id="counter" class="counter-number">—</div>
-        <p class="counter-sub">
-          hari yang tidak selalu mudah, tapi selalu dipilih
-        </p>
+      <section class="s-counter" data-aos="fade-up">
+        <div class="counter-ring"></div>
+        <p class="counter-label">Sudah bersama</p>
+        <div class="counter-value">
+          <span id="counter" class="counter-num">0</span>
+          <span class="counter-unit">hari</span>
+        </div>
+        <p class="counter-sub">yang tidak selalu mudah, tapi selalu dipilih</p>
+        <div class="counter-hearts" id="counterHearts"></div>
       </section>
 
       <!-- DETAIL -->
-      <section class="section-card reveal">
-        <div class="card">
-          <h3 class="card-title">Detail Hubungan</h3>
+      <section class="s-card" data-aos="fade-up" data-aos-delay="50">
+        <div class="card glass-card">
+          <div class="card-glow"></div>
+          <h3 class="card-title">
+            <span class="title-num">01</span> Detail Hubungan
+          </h3>
           <ul class="detail-list">
-            <li>
-              <span class="detail-icon">📅</span
-              ><span><strong>Jadian:</strong> 13 Juni 2025</span>
+            <li class="detail-item" data-aos="fade-right" data-aos-delay="100">
+              <span class="detail-icon">📅</span>
+              <div><strong>Jadian</strong><span>13 Juni 2025</span></div>
             </li>
-            <li>
-              <span class="detail-icon">📌</span
-              ><span><strong>Status:</strong> Masih Bertahan</span>
+            <li class="detail-item" data-aos="fade-right" data-aos-delay="180">
+              <span class="detail-icon">📌</span>
+              <div>
+                <strong>Status</strong
+                ><span class="status-badge">● Masih Bertahan</span>
+              </div>
             </li>
-            <li>
-              <span class="detail-icon">🎧</span
-              ><span><strong>Saksi:</strong> Spotify Blend</span>
+            <li class="detail-item" data-aos="fade-right" data-aos-delay="260">
+              <span class="detail-icon">🎧</span>
+              <div><strong>Saksi</strong><span>Spotify Blend</span></div>
             </li>
-            <li>
-              <span class="detail-icon">🐈</span
-              ><span><strong>Saksi Tambahan:</strong> Karpet Bulu Abu-Abu</span>
+            <li class="detail-item" data-aos="fade-right" data-aos-delay="340">
+              <span class="detail-icon">🐈</span>
+              <div>
+                <strong>Saksi Tambahan</strong><span>Karpet Bulu Abu-Abu</span>
+              </div>
             </li>
           </ul>
         </div>
       </section>
 
       <!-- TIMELINE -->
-      <section class="section-card reveal">
-        <div class="card">
-          <h3 class="card-title">Timeline Hubungan <em>(Jujur)</em></h3>
-          <ul class="timeline">
-            <li>
-              <span class="tl-dot"></span><span class="tl-icon">📱</span
-              ><span><strong>Hari 1:</strong> Chat sok santai</span>
-            </li>
-            <li>
-              <span class="tl-dot"></span><span class="tl-icon">🙂</span
-              ><span><strong>Minggu 1:</strong> Mulai nyaman</span>
-            </li>
-            <li>
-              <span class="tl-dot"></span><span class="tl-icon">😒</span
-              ><span><strong>Bulan 1:</strong> Mulai ngambek</span>
-            </li>
-            <li>
-              <span class="tl-dot"></span><span class="tl-icon">😤</span
-              ><span><strong>Bulan 3:</strong> Ribut nggak jelas</span>
-            </li>
-            <li>
-              <span class="tl-dot active"></span><span class="tl-icon">🤍</span
-              ><span><strong>Sekarang:</strong> Nggak bisa jauh</span>
-            </li>
-          </ul>
+      <section class="s-card" data-aos="fade-up">
+        <div class="card glass-card">
+          <div class="card-glow glow-rose"></div>
+          <h3 class="card-title">
+            <span class="title-num">02</span> Timeline <em>Jujur</em>
+          </h3>
+          <div class="timeline-wrap">
+            <div class="tl-line"></div>
+            <div class="tl-item" data-aos="fade-left" data-aos-delay="80">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-period">Hari 1</span>
+                <p>📱 Chat sok santai</p>
+              </div>
+            </div>
+            <div class="tl-item" data-aos="fade-left" data-aos-delay="160">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-period">Minggu 1</span>
+                <p>🙂 Mulai nyaman</p>
+              </div>
+            </div>
+            <div class="tl-item" data-aos="fade-left" data-aos-delay="240">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-period">Bulan 1</span>
+                <p>😒 Mulai ngambek</p>
+              </div>
+            </div>
+            <div class="tl-item" data-aos="fade-left" data-aos-delay="320">
+              <div class="tl-dot"></div>
+              <div class="tl-content">
+                <span class="tl-period">Bulan 3</span>
+                <p>😤 Ribut nggak jelas</p>
+              </div>
+            </div>
+            <div
+              class="tl-item active"
+              data-aos="fade-left"
+              data-aos-delay="400"
+            >
+              <div class="tl-dot active-dot"></div>
+              <div class="tl-content">
+                <span class="tl-period now">Sekarang ✦</span>
+                <p>🤍 Nggak bisa jauh</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- STATISTIK -->
-      <section class="section-card reveal">
-        <div class="card">
-          <h3 class="card-title">Statistik Hubungan</h3>
+      <!-- STATS -->
+      <section class="s-card" data-aos="fade-up">
+        <div class="card glass-card">
+          <div class="card-glow"></div>
+          <h3 class="card-title">
+            <span class="title-num">03</span> Statistik Hubungan
+          </h3>
           <div class="stat-grid">
-            <div class="stat-item">
-              <div class="stat-value gold">101%</div>
-              <div class="stat-label">Tingkat Sayang</div>
-              <div class="stat-bar">
-                <div class="stat-fill" style="width: 100%"></div>
+            <div class="stat-box" data-aos="zoom-in" data-aos-delay="80">
+              <div class="stat-circle" data-pct="100" data-color="#c9a96e">
+                <svg viewBox="0 0 80 80">
+                  <circle class="bg" cx="40" cy="40" r="34" />
+                  <circle class="fill" cx="40" cy="40" r="34" id="sc1" />
+                </svg>
+                <span class="stat-val gold">101%</span>
               </div>
+              <p>Tingkat Sayang</p>
             </div>
-            <div class="stat-item">
-              <div class="stat-value rose">∞</div>
-              <div class="stat-label">Tingkat Ngambek</div>
-              <div class="stat-bar">
-                <div class="stat-fill rose-fill" style="width: 100%"></div>
+            <div class="stat-box" data-aos="zoom-in" data-aos-delay="160">
+              <div class="stat-circle" data-pct="100" data-color="#d4627a">
+                <svg viewBox="0 0 80 80">
+                  <circle class="bg" cx="40" cy="40" r="34" />
+                  <circle class="fill" cx="40" cy="40" r="34" id="sc2" />
+                </svg>
+                <span class="stat-val rose">∞%</span>
               </div>
+              <p>Tingkat Ngambek</p>
             </div>
-            <div class="stat-item">
-              <div class="stat-value muted">7.6M%</div>
-              <div class="stat-label">Tingkat Gengsi</div>
-              <div class="stat-bar">
-                <div class="stat-fill muted-fill" style="width: 80%"></div>
+            <div class="stat-box" data-aos="zoom-in" data-aos-delay="240">
+              <div class="stat-circle" data-pct="77" data-color="#8a8078">
+                <svg viewBox="0 0 80 80">
+                  <circle class="bg" cx="40" cy="40" r="34" />
+                  <circle class="fill" cx="40" cy="40" r="34" id="sc3" />
+                </svg>
+                <span class="stat-val muted">7.6M%</span>
               </div>
+              <p>Tingkat Gengsi</p>
             </div>
-            <div class="stat-item">
-              <div class="stat-value gold">0%</div>
-              <div class="stat-label">Kemungkinan Putus</div>
-              <div class="stat-bar">
-                <div class="stat-fill" style="width: 0%"></div>
+            <div class="stat-box" data-aos="zoom-in" data-aos-delay="320">
+              <div class="stat-circle" data-pct="0" data-color="#c9a96e">
+                <svg viewBox="0 0 80 80">
+                  <circle class="bg" cx="40" cy="40" r="34" />
+                  <circle class="fill" cx="40" cy="40" r="34" id="sc4" />
+                </svg>
+                <span class="stat-val gold">0%</span>
               </div>
+              <p>Kemungkinan Putus</p>
             </div>
           </div>
         </div>
       </section>
 
       <!-- FAQ -->
-      <section class="section-card reveal">
-        <div class="card">
-          <h3 class="card-title">FAQ Paling Nyebelin</h3>
-          <div class="faq">
-            <div class="faq-item">
-              <p class="faq-q">Kapan nikah?</p>
-              <p class="faq-a">Tanya dompet.</p>
+      <section class="s-card" data-aos="fade-up">
+        <div class="card glass-card">
+          <div class="card-glow glow-rose"></div>
+          <h3 class="card-title">
+            <span class="title-num">04</span> FAQ Paling Nyebelin
+          </h3>
+          <div class="faq-list">
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="80">
+              <div class="faq-q" onclick="toggleFaq(this)">
+                <span>Kapan nikah?</span>
+                <span class="faq-arrow">﹀</span>
+              </div>
+              <div class="faq-a"><p>Tanya dompet.</p></div>
             </div>
-            <div class="faq-item">
-              <p class="faq-q">Serius?</p>
-              <p class="faq-a">Serius, tapi santai.</p>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="160">
+              <div class="faq-q" onclick="toggleFaq(this)">
+                <span>Serius?</span>
+                <span class="faq-arrow">﹀</span>
+              </div>
+              <div class="faq-a"><p>Serius, tapi santai.</p></div>
             </div>
-            <div class="faq-item">
-              <p class="faq-q">Pernah mau nyerah?</p>
-              <p class="faq-a">Pernah. Tapi nggak jadi.</p>
+            <div class="faq-item" data-aos="fade-up" data-aos-delay="240">
+              <div class="faq-q" onclick="toggleFaq(this)">
+                <span>Pernah mau nyerah?</span>
+                <span class="faq-arrow">﹀</span>
+              </div>
+              <div class="faq-a"><p>Pernah. Tapi nggak jadi.</p></div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- KONTRAK -->
-      <section class="section-card reveal">
-        <div class="card">
-          <h3 class="card-title">Kontrak Pacaran Digital</h3>
-          <ol class="kontrak-list">
-            <li>Dilarang ghosting lebih dari 6 jam</li>
-            <li>Ngambek maksimal 1 hari</li>
-            <li>Kalau capek, bilang</li>
-            <li>Kalau kangen, jangan gengsi</li>
+      <section class="s-card" data-aos="fade-up">
+        <div class="card glass-card">
+          <div class="card-glow"></div>
+          <h3 class="card-title">
+            <span class="title-num">05</span> Kontrak Pacaran Digital
+          </h3>
+          <ol class="kontrak-ol">
+            <li data-aos="fade-right" data-aos-delay="80">
+              Dilarang ghosting lebih dari 6 jam
+            </li>
+            <li data-aos="fade-right" data-aos-delay="160">
+              Ngambek maksimal 1 hari
+            </li>
+            <li data-aos="fade-right" data-aos-delay="240">
+              Kalau capek, bilang
+            </li>
+            <li data-aos="fade-right" data-aos-delay="320">
+              Kalau kangen, jangan gengsi
+            </li>
           </ol>
+          <div class="kontrak-seal">
+            <div class="seal-ring">✦</div>
+            <p>Ditandatangani dalam hati masing-masing</p>
+          </div>
         </div>
       </section>
 
       <!-- QUOTE -->
-      <section class="section-quote reveal">
-        <div class="quote-block">
-          <div class="quote-mark">"</div>
-          <p>
-            Hubungan ini akan bertahan selama komunikasi dijaga, ego diturunin,
-            dan <em>Sabila terus ngasih makanan sisa ke Baros.</em>
-          </p>
-          <div class="quote-mark closing">"</div>
+      <section class="s-quote" data-aos="fade-up">
+        <div class="quote-outer">
+          <div class="quote-marks open">"</div>
+          <p id="typedQuote"></p>
+          <div class="quote-marks close">"</div>
+          <div class="quote-attr">— Kontrak yang tidak pernah ditulis</div>
         </div>
       </section>
 
-      <!-- KOMENTAR -->
-      <section class="section-card reveal">
-        <div class="card">
-          <h3 class="card-title">Komentar & Doa</h3>
+      <!-- COMMENT -->
+      <section class="s-card" data-aos="fade-up">
+        <div class="card glass-card">
+          <div class="card-glow glow-rose"></div>
+          <h3 class="card-title">
+            <span class="title-num">06</span> Komentar & Doa
+          </h3>
           <div class="comment-form">
-            <input
-              id="name"
-              type="text"
-              placeholder="Nama kamu"
-              autocomplete="off"
-            />
-            <textarea
-              id="comment"
-              placeholder="Tulis doa atau komentarmu..."
-              rows="3"
-            ></textarea>
-            <button onclick="addComment()">Kirim ✦</button>
+            <div class="form-group">
+              <input id="name" type="text" placeholder=" " autocomplete="off" />
+              <label for="name">Nama kamu</label>
+            </div>
+            <div class="form-group">
+              <textarea id="comment" placeholder=" " rows="3"></textarea>
+              <label for="comment">Tulis doa atau komentarmu…</label>
+            </div>
+            <button
+              class="submit-btn magnetic-btn"
+              data-magnetic
+              onclick="addComment()"
+            >
+              <span class="btn-bg"></span>
+              <span class="btn-text">Kirim ✦</span>
+            </button>
           </div>
           <div id="commentList"></div>
         </div>
       </section>
 
       <!-- FOOTER -->
-      <footer class="site-footer reveal">
-        <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+      <footer class="site-footer" data-aos="fade-up">
+        <div class="footer-ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+        <h3 class="footer-names">Baros <em>&</em> Sabila</h3>
         <p>
-          Terima kasih sudah baca sampai bawah.<br />Kalau kamu sampai sini,
+          Terima kasih sudah baca sampai sini.<br />Kalau kamu sampai bawah,
           berarti kamu niat. 🤍
         </p>
-        <p class="footer-names">Baros &amp; Sabila · 2025</p>
+        <p class="footer-year">XIII · VI · MMXXV</p>
+        <div class="footer-hearts" id="footerHearts"></div>
       </footer>
     </main>
 
-    <!-- MUSIC BUTTON -->
-    <button id="musicBtn" class="music-btn" aria-label="Toggle musik">
-      <span class="music-icon">♪</span>
+    <!-- MUSIC BTN -->
+    <button id="musicBtn" class="music-btn">
+      <span class="music-wave" id="musicWave">
+        <span></span><span></span><span></span><span></span><span></span>
+      </span>
       <span class="music-label">Musik</span>
     </button>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
 
     <script src="script.js"></script>
   </body>
