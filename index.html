@@ -3,229 +3,263 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Baros & Sabila</title>
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Fonts -->
+    <title>Baros & Sabila — Hubungan Resmi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@200;300;400;500&display=swap"
       rel="stylesheet"
     />
-
-    <style>
-      body {
-        font-family: "Poppins", sans-serif;
-      }
-      .font-undangan {
-        font-family: "Playfair Display", serif;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
-
-  <body class="bg-slate-900 text-white">
-    <!-- AUDIO -->
+  <body>
     <audio id="music" loop preload="auto">
       <source src="bad.mp3" type="audio/mpeg" />
     </audio>
 
     <!-- COVER -->
-    <section
-      id="cover"
-      class="h-screen flex flex-col justify-center items-center text-center px-6 bg-gradient-to-b from-slate-900 to-slate-800"
-    >
-      <p class="tracking-widest text-xs mb-4">UNDANGAN HUBUNGAN RESMI</p>
-      <h1 class="font-undangan text-4xl mb-3">Baros & Sabila</h1>
-      <p class="opacity-80 mb-8">
-        Bukan pernikahan.<br />
-        Jangan tanya kapan.
-      </p>
-      <button
-        id="openBtn"
-        class="px-6 py-3 rounded-full bg-pink-400 text-black font-medium hover:scale-105 transition"
-      >
-        Buka Undangan
-      </button>
+    <section id="cover">
+      <div class="cover-bg"></div>
+      <div class="cover-noise"></div>
+
+      <div class="cover-content">
+        <div class="ornament top-ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+        <p class="cover-eyebrow">Dengan sepenuh hati, kami mengumumkan</p>
+        <h1 class="cover-title">
+          <span class="name-left">Baros</span>
+          <span class="ampersand">&amp;</span>
+          <span class="name-right">Sabila</span>
+        </h1>
+        <p class="cover-sub">Hubungan Resmi · 13 Juni 2025</p>
+        <div class="divider">
+          <span class="divider-line"></span>
+          <span class="divider-diamond">◆</span>
+          <span class="divider-line"></span>
+        </div>
+        <p class="cover-note">Bukan pernikahan.<br />Jangan tanya kapan.</p>
+
+        <button id="openBtn" class="open-btn">
+          <span>Buka Undangan</span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
+        </button>
+
+        <div class="ornament bottom-ornament">
+          — &nbsp; XIII.VI.MMXXV &nbsp; —
+        </div>
+      </div>
     </section>
 
     <!-- CONTENT -->
-    <section id="content" class="hidden px-6 py-10 max-w-xl mx-auto space-y-10">
-      <div class="text-center">
-        <h2 class="font-undangan text-3xl">Hubungan Resmi</h2>
-        <p class="opacity-70">13 Juni 2025 — Sekarang</p>
-      </div>
+    <main id="content" class="hidden">
+      <!-- HERO -->
+      <section class="section-hero reveal">
+        <div class="hero-label">✦ Undangan Hubungan Resmi ✦</div>
+        <h2 class="section-title">Baros <em>&</em> Sabila</h2>
+        <p class="hero-date">13 Juni 2025 — Sekarang</p>
+      </section>
 
-      <img src="img.jpeg" class="rounded-2xl shadow-lg w-full" />
+      <!-- PHOTO -->
+      <section class="section-photo reveal">
+        <div class="photo-frame">
+          <img src="img.jpeg" alt="Baros & Sabila" />
+          <div class="photo-caption">📍 Di mana pun, asal bareng</div>
+        </div>
+      </section>
 
-      <div class="bg-slate-800 rounded-2xl p-6">
-        <h3 class="font-undangan text-xl mb-3">Detail Hubungan</h3>
-        <ul class="space-y-2 text-sm">
-          <li>📅 Jadian: 13 Juni 2025</li>
-          <li>📌 Status: Masih Bertahan</li>
-          <li>🎧 Saksi: Spotify Blend</li>
-          <li>🐈 Saksi Tambahan: Karpet Bulu Abu-Abu</li>
-        </ul>
-      </div>
+      <!-- COUNTER -->
+      <section class="section-counter reveal">
+        <p class="counter-label">Sudah bersama selama</p>
+        <div id="counter" class="counter-number">—</div>
+        <p class="counter-sub">
+          hari yang tidak selalu mudah, tapi selalu dipilih
+        </p>
+      </section>
 
-      <div class="text-center">
-        <p class="opacity-70">Sudah bersama selama</p>
-        <h3 id="counter" class="font-undangan text-2xl"></h3>
-      </div>
+      <!-- DETAIL -->
+      <section class="section-card reveal">
+        <div class="card">
+          <h3 class="card-title">Detail Hubungan</h3>
+          <ul class="detail-list">
+            <li>
+              <span class="detail-icon">📅</span
+              ><span><strong>Jadian:</strong> 13 Juni 2025</span>
+            </li>
+            <li>
+              <span class="detail-icon">📌</span
+              ><span><strong>Status:</strong> Masih Bertahan</span>
+            </li>
+            <li>
+              <span class="detail-icon">🎧</span
+              ><span><strong>Saksi:</strong> Spotify Blend</span>
+            </li>
+            <li>
+              <span class="detail-icon">🐈</span
+              ><span><strong>Saksi Tambahan:</strong> Karpet Bulu Abu-Abu</span>
+            </li>
+          </ul>
+        </div>
+      </section>
 
-      <div class="bg-slate-800 rounded-2xl p-6">
-        <h3 class="font-undangan text-xl mb-3">Timeline Hubungan (Jujur)</h3>
-        <ul class="space-y-2 text-sm">
-          <li>📱 Hari 1: Chat sok santai</li>
-          <li>🙂 Minggu 1: Mulai nyaman</li>
-          <li>😒 Bulan 1: Mulai ngambek</li>
-          <li>😤 Bulan 3: Ribut nggak jelas</li>
-          <li>🤍 Sekarang: Nggak bisa jauh</li>
-        </ul>
-      </div>
+      <!-- TIMELINE -->
+      <section class="section-card reveal">
+        <div class="card">
+          <h3 class="card-title">Timeline Hubungan <em>(Jujur)</em></h3>
+          <ul class="timeline">
+            <li>
+              <span class="tl-dot"></span><span class="tl-icon">📱</span
+              ><span><strong>Hari 1:</strong> Chat sok santai</span>
+            </li>
+            <li>
+              <span class="tl-dot"></span><span class="tl-icon">🙂</span
+              ><span><strong>Minggu 1:</strong> Mulai nyaman</span>
+            </li>
+            <li>
+              <span class="tl-dot"></span><span class="tl-icon">😒</span
+              ><span><strong>Bulan 1:</strong> Mulai ngambek</span>
+            </li>
+            <li>
+              <span class="tl-dot"></span><span class="tl-icon">😤</span
+              ><span><strong>Bulan 3:</strong> Ribut nggak jelas</span>
+            </li>
+            <li>
+              <span class="tl-dot active"></span><span class="tl-icon">🤍</span
+              ><span><strong>Sekarang:</strong> Nggak bisa jauh</span>
+            </li>
+          </ul>
+        </div>
+      </section>
 
-      <div class="bg-slate-800 rounded-2xl p-6">
-        <h3 class="font-undangan text-xl mb-3">FAQ Paling Nyebelin</h3>
-        <ul class="space-y-3 text-sm">
-          <li><b>Q:</b> Kapan nikah?<br /><b>A:</b> Tanya dompet.</li>
-          <li><b>Q:</b> Serius?<br /><b>A:</b> Serius tapi santai.</li>
-          <li>
-            <b>Q:</b> Pernah mau nyerah?<br /><b>A:</b> Pernah, tapi nggak jadi.
-          </li>
-        </ul>
-      </div>
+      <!-- STATISTIK -->
+      <section class="section-card reveal">
+        <div class="card">
+          <h3 class="card-title">Statistik Hubungan</h3>
+          <div class="stat-grid">
+            <div class="stat-item">
+              <div class="stat-value gold">101%</div>
+              <div class="stat-label">Tingkat Sayang</div>
+              <div class="stat-bar">
+                <div class="stat-fill" style="width: 100%"></div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value rose">∞</div>
+              <div class="stat-label">Tingkat Ngambek</div>
+              <div class="stat-bar">
+                <div class="stat-fill rose-fill" style="width: 100%"></div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value muted">7.6M%</div>
+              <div class="stat-label">Tingkat Gengsi</div>
+              <div class="stat-bar">
+                <div class="stat-fill muted-fill" style="width: 80%"></div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value gold">0%</div>
+              <div class="stat-label">Kemungkinan Putus</div>
+              <div class="stat-bar">
+                <div class="stat-fill" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <div class="bg-slate-800 rounded-2xl p-6">
-        <h3 class="font-undangan text-xl mb-3">Kontrak Pacaran Digital</h3>
-        <ol class="list-decimal list-inside text-sm space-y-2">
-          <li>Dilarang ghosting lebih dari 6 jam</li>
-          <li>Ngambek maksimal 1 hari</li>
-          <li>Kalau capek, bilang</li>
-          <li>Kalau kangen, jangan gengsi</li>
-        </ol>
-      </div>
+      <!-- FAQ -->
+      <section class="section-card reveal">
+        <div class="card">
+          <h3 class="card-title">FAQ Paling Nyebelin</h3>
+          <div class="faq">
+            <div class="faq-item">
+              <p class="faq-q">Kapan nikah?</p>
+              <p class="faq-a">Tanya dompet.</p>
+            </div>
+            <div class="faq-item">
+              <p class="faq-q">Serius?</p>
+              <p class="faq-a">Serius, tapi santai.</p>
+            </div>
+            <div class="faq-item">
+              <p class="faq-q">Pernah mau nyerah?</p>
+              <p class="faq-a">Pernah. Tapi nggak jadi.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <div class="bg-slate-800 rounded-2xl p-6">
-        <h3 class="font-undangan text-xl mb-3">Statistik Hubungan</h3>
-        <ul class="space-y-2 text-sm">
-          <li>📊 Tingkat sayang: 101% "Sangat Tinggi"</li>
-          <li>📊 Tingkat ngambek: 999999999999% "Tidak Stabil"</li>
-          <li>📊 Tingkat gengsi: 677777777% "Jangan Ditanya"</li>
-          <li>📊 Kemungkinan putus: 0% "Jangan Harap Dek Dek"</li>
-        </ul>
-      </div>
+      <!-- KONTRAK -->
+      <section class="section-card reveal">
+        <div class="card">
+          <h3 class="card-title">Kontrak Pacaran Digital</h3>
+          <ol class="kontrak-list">
+            <li>Dilarang ghosting lebih dari 6 jam</li>
+            <li>Ngambek maksimal 1 hari</li>
+            <li>Kalau capek, bilang</li>
+            <li>Kalau kangen, jangan gengsi</li>
+          </ol>
+        </div>
+      </section>
 
-      <div class="bg-slate-800 rounded-2xl p-6 text-center italic text-sm">
-        Hubungan ini akan bertahan selama<br />
-        komunikasi dijaga,<br />
-        ego diturunin,<br />
-        dan "(Selalu ngasih makanan sisa sabila ke baros)".
-      </div>
+      <!-- QUOTE -->
+      <section class="section-quote reveal">
+        <div class="quote-block">
+          <div class="quote-mark">"</div>
+          <p>
+            Hubungan ini akan bertahan selama komunikasi dijaga, ego diturunin,
+            dan <em>Sabila terus ngasih makanan sisa ke Baros.</em>
+          </p>
+          <div class="quote-mark closing">"</div>
+        </div>
+      </section>
 
-      <div class="bg-slate-800 rounded-2xl p-6">
-        <h3 class="font-undangan text-xl mb-3">Komentar & Doa</h3>
-        <input
-          id="name"
-          placeholder="Nama"
-          class="w-full p-2 rounded bg-slate-700 mb-2"
-        />
-        <textarea
-          id="comment"
-          placeholder="Komentar kamu..."
-          class="w-full p-2 rounded bg-slate-700 mb-2"
-        ></textarea>
-        <button
-          onclick="addComment()"
-          class="w-full bg-pink-400 text-black py-2 rounded-full"
-        >
-          Kirim
-        </button>
-        <div id="commentList" class="mt-4 space-y-2"></div>
-      </div>
+      <!-- KOMENTAR -->
+      <section class="section-card reveal">
+        <div class="card">
+          <h3 class="card-title">Komentar & Doa</h3>
+          <div class="comment-form">
+            <input
+              id="name"
+              type="text"
+              placeholder="Nama kamu"
+              autocomplete="off"
+            />
+            <textarea
+              id="comment"
+              placeholder="Tulis doa atau komentarmu..."
+              rows="3"
+            ></textarea>
+            <button onclick="addComment()">Kirim ✦</button>
+          </div>
+          <div id="commentList"></div>
+        </div>
+      </section>
 
-      <div class="text-center italic opacity-80">
-        Terima kasih sudah baca sampai bawah.<br />
-        Kalau kamu baca ini, berarti kamu niat 🤍
-      </div>
-    </section>
+      <!-- FOOTER -->
+      <footer class="site-footer reveal">
+        <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+        <p>
+          Terima kasih sudah baca sampai bawah.<br />Kalau kamu sampai sini,
+          berarti kamu niat. 🤍
+        </p>
+        <p class="footer-names">Baros &amp; Sabila · 2025</p>
+      </footer>
+    </main>
 
     <!-- MUSIC BUTTON -->
-    <button
-      id="musicBtn"
-      class="fixed bottom-5 right-5 bg-pink-400 text-black px-4 py-2 rounded-full shadow"
-    >
-      🔊 Musik
+    <button id="musicBtn" class="music-btn" aria-label="Toggle musik">
+      <span class="music-icon">♪</span>
+      <span class="music-label">Musik</span>
     </button>
 
-    <script>
-      const openBtn = document.getElementById("openBtn");
-      const cover = document.getElementById("cover");
-      const content = document.getElementById("content");
-      const music = document.getElementById("music");
-      const musicBtn = document.getElementById("musicBtn");
-
-      // SETUP AUDIO
-      music.volume = 0.6;
-      music.load();
-
-      // PLAY SAAT KLIK BUKA UNDANGAN (FIX)
-      openBtn.addEventListener("click", async () => {
-        cover.classList.add("hidden");
-        content.classList.remove("hidden");
-
-        try {
-          await music.play();
-        } catch (err) {
-          console.log("Autoplay diblokir, pakai tombol musik");
-        }
-      });
-
-      // TOGGLE MUSIK
-      let playing = true;
-      musicBtn.onclick = async () => {
-        if (playing) {
-          music.pause();
-          musicBtn.textContent = "🔇 Musik";
-        } else {
-          await music.play();
-          musicBtn.textContent = "🔊 Musik";
-        }
-        playing = !playing;
-      };
-
-      // COUNTER
-      const start = new Date("2025-06-13");
-      const now = new Date();
-      const days = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-      document.getElementById("counter").textContent = days + " hari";
-
-      // KOMENTAR (LOCAL)
-      function addComment() {
-        const name = document.getElementById("name").value;
-        const text = document.getElementById("comment").value;
-        if (!name || !text) return;
-
-        const data = JSON.parse(localStorage.getItem("comments")) || [];
-        data.push({ name, text });
-        localStorage.setItem("comments", JSON.stringify(data));
-        document.getElementById("name").value = "";
-        document.getElementById("comment").value = "";
-        render();
-      }
-
-      function render() {
-        const list = document.getElementById("commentList");
-        list.innerHTML = "";
-        (JSON.parse(localStorage.getItem("comments")) || []).forEach((c) => {
-          list.innerHTML += `<div class="bg-slate-700 p-2 rounded">
-              <b>${c.name}</b><br>${c.text}
-            </div>`;
-        });
-      }
-      render();
-
-      document.body.ondblclick = () =>
-        alert("Kalau nemu ini berarti kamu perhatian 🫶");
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>

@@ -4,59 +4,136 @@ const content = document.getElementById("content");
 const music = document.getElementById("music");
 const musicBtn = document.getElementById("musicBtn");
 
-openBtn.onclick = () => {
+/* ── OPEN INVITATION ─────────────────────── */
+openBtn.addEventListener("click", async () => {
   cover.classList.add("hidden");
   content.classList.remove("hidden");
-  music.play();
-};
 
-/* MUSIC TOGGLE */
+  try {
+    music.volume = 0.55;
+    await music.play();
+  } catch (e) {
+    // Autoplay blocked — user can use the music button
+  }
+
+  initReveal();
+  updateCounter();
+  renderComments();
+});
+
+/* ── MUSIC TOGGLE ───────────────────────── */
 let playing = true;
-musicBtn.onclick = () => {
+
+musicBtn.addEventListener("click", async () => {
   if (playing) {
     music.pause();
-    musicBtn.textContent = "🔇 Musik";
+    musicBtn.querySelector(".music-icon").textContent = "♪";
+    musicBtn.querySelector(".music-label").textContent = "Muzik Off";
+    musicBtn.classList.add("muted");
   } else {
-    music.play();
-    musicBtn.textContent = "🎵 Musik";
+    await music.play();
+    musicBtn.querySelector(".music-icon").textContent = "♪";
+    musicBtn.querySelector(".music-label").textContent = "Musik";
+    musicBtn.classList.remove("muted");
   }
   playing = !playing;
-};
+});
 
-/* COUNTER */
-const start = new Date("2025-06-13");
-const now = new Date();
-const days = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-document.getElementById("counter").textContent = `${days} hari bersama`;
+/* ── COUNTER ────────────────────────────── */
+function updateCounter() {
+  const start = new Date("2025-06-13T00:00:00");
+  const now = new Date();
+  const days = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  const el = document.getElementById("counter");
 
-/* KOMENTAR */
+  // Animate count-up
+  let current = 0;
+  const step = Math.ceil(days / 60);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, days);
+    el.textContent = current.toLocaleString("id-ID");
+    if (current >= days) clearInterval(timer);
+  }, 16);
+}
+
+/* ── SCROLL REVEAL ──────────────────────── */
+function initReveal() {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // Stagger each card slightly
+          setTimeout(() => {
+            entry.target.classList.add("visible");
+          }, i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+  );
+
+  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+}
+
+/* ── COMMENTS ───────────────────────────── */
 function addComment() {
-  const name = document.getElementById("name").value;
-  const text = document.getElementById("comment").value;
-  if (!name || !text) return;
+  const nameEl = document.getElementById("name");
+  const commentEl = document.getElementById("comment");
+  const name = nameEl.value.trim();
+  const text = commentEl.value.trim();
 
-  const data = JSON.parse(localStorage.getItem("comments")) || [];
-  data.push({ name, text });
-  localStorage.setItem("comments", JSON.stringify(data));
+  if (!name || !text) {
+    // Shake the empty field
+    const empty = !name ? nameEl : commentEl;
+    empty.style.borderColor = "#d4627a";
+    empty.style.animation = "none";
+    setTimeout(() => {
+      empty.style.borderColor = "";
+    }, 1500);
+    return;
+  }
 
-  document.getElementById("name").value = "";
-  document.getElementById("comment").value = "";
+  const data = JSON.parse(localStorage.getItem("comments_baros_sabila")) || [];
+  data.push({ name, text, ts: Date.now() });
+  localStorage.setItem("comments_baros_sabila", JSON.stringify(data));
+
+  nameEl.value = "";
+  commentEl.value = "";
   renderComments();
 }
 
 function renderComments() {
   const list = document.getElementById("commentList");
-  list.innerHTML = "";
-  const data = JSON.parse(localStorage.getItem("comments")) || [];
+  const data = JSON.parse(localStorage.getItem("comments_baros_sabila")) || [];
 
-  data.forEach((c) => {
-    list.innerHTML += `
-      <div class="bg-slate-700 p-3 rounded">
-        <b>${c.name}</b><br>
-        <span class="text-sm opacity-90">${c.text}</span>
-      </div>
-    `;
-  });
+  if (!data.length) {
+    list.innerHTML = `<p style="font-size:.8rem;color:var(--text-muted);font-style:italic;text-align:center;padding:12px 0">Belum ada komentar. Jadilah yang pertama. ✦</p>`;
+    return;
+  }
+
+  list.innerHTML = data
+    .slice()
+    .reverse()
+    .map(
+      (c) => `
+      <div class="comment-entry">
+        <strong>${escapeHTML(c.name)}</strong>
+        <p>${escapeHTML(c.text)}</p>
+      </div>`
+    )
+    .join("");
 }
 
-renderComments();
+function escapeHTML(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/* ── EASTER EGG ─────────────────────────── */
+document.body.addEventListener("dblclick", () => {
+  alert("Kalau nemu ini berarti kamu perhatian. 🫶");
+});
